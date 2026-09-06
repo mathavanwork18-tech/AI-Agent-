@@ -1,0 +1,1256 @@
+# BUILD THIS PROJECT: AGENTHEAL
+
+## Autonomous AI Agent Engineering Platform
+
+You are building a complete, working web application called **AgentHeal**.
+
+AgentHeal is an autonomous AI agent engineering platform.
+
+The user should be able to describe an AI agent they need in natural language, and the system should:
+
+1. Understand the requirement.
+2. Design a specialized agent.
+3. Generate Agent V1.
+4. Generate test cases automatically.
+5. Run the agent against the test cases.
+6. Evaluate the results.
+7. Detect and explain failures.
+8. Automatically improve the agent's instructions/workflow.
+9. Generate Agent V2.
+10. Retest V2.
+11. Compare versions.
+12. Select the best-performing version.
+13. Allow the user to deploy/use the selected agent.
+
+This must NOT be a fake static dashboard.
+
+The core functionality must actually work.
+
+---
+
+# 1. CORE PRODUCT IDEA
+
+The main product is NOT a customer-support chatbot.
+
+The main product is:
+
+> **An autonomous system that creates and improves task-specific AI agents from natural-language requirements.**
+
+Customer support is only the first demonstration use case.
+
+Example user requirement:
+
+"I need an AI agent that handles customer refund and replacement requests for an e-commerce company."
+
+The system should convert this into:
+
+* Agent name
+* Agent role
+* Goal
+* Instructions
+* Constraints
+* Required tools
+* Memory requirements
+* Expected behavior
+* Test scenarios
+* Evaluation criteria
+
+Then automatically create and evaluate the agent.
+
+---
+
+# 2. MAIN AUTONOMOUS LOOP
+
+Implement this exact workflow:
+
+USER REQUIREMENT
+↓
+TASK ANALYZER
+↓
+AGENT ARCHITECT
+↓
+AGENT GENERATOR
+↓
+AGENT V1
+↓
+TEST CASE GENERATOR
+↓
+TEST EXECUTION
+↓
+EVALUATOR
+↓
+FAILURE ANALYZER
+↓
+OPTIMIZER
+↓
+AGENT V2
+↓
+RETEST
+↓
+VERSION COMPARISON
+↓
+BEST AGENT
+↓
+DEPLOY / USE
+
+The improvement loop must be visible in the UI.
+
+---
+
+# 3. TECH STACK
+
+Use a simple and reliable architecture.
+
+Frontend:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* Lucide icons
+* Recharts for charts
+
+Backend:
+
+* Node.js
+* Express
+* TypeScript
+
+AI:
+
+* Gemini API
+* Create a centralized AI service
+* Never hardcode API keys
+
+Database:
+
+* Use MongoDB if configuration is available.
+* Otherwise create a clean local persistence layer that can later be replaced by MongoDB.
+
+Do NOT introduce unnecessary technologies.
+
+Avoid:
+
+* Microservices
+* Kubernetes
+* Complex message queues
+* Complicated authentication systems
+* Unnecessary third-party integrations
+
+The application must run locally with simple commands.
+
+---
+
+# 4. PROJECT STRUCTURE
+
+Create a clean structure:
+
+agentheal/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── utils/
+│
+├── backend/
+│   ├── src/
+│   │   ├── agents/
+│   │   ├── evaluation/
+│   │   ├── optimization/
+│   │   ├── testing/
+│   │   ├── ai/
+│   │   ├── workflows/
+│   │   ├── routes/
+│   │   ├── models/
+│   │   └── utils/
+│
+├── ai/
+│   ├── task-analyzer/
+│   ├── agent-generator/
+│   ├── test-generator/
+│   ├── evaluator/
+│   ├── failure-analyzer/
+│   └── optimizer/
+│
+├── shared/
+│   └── types/
+│
+├── README.md
+├── .env.example
+└── package.json
+
+Keep each AI responsibility separated.
+
+---
+
+# 5. WEBSITE DESIGN
+
+Create a premium modern SaaS interface.
+
+Style:
+
+* Dark futuristic dashboard
+* Clean typography
+* Glass/soft-card design
+* Subtle gradients
+* Professional enterprise UI
+* Responsive layout
+* Smooth animations
+* No excessive animations
+
+Application name:
+
+**AgentHeal**
+
+Tagline:
+
+**Build. Test. Improve. Deploy.**
+
+Secondary tagline:
+
+**Autonomous AI Agent Engineering Platform**
+
+---
+
+# 6. SIDEBAR
+
+Create:
+
+Dashboard
+Create Agent
+My Agents
+Testing Lab
+Evaluation
+Improvement
+Version History
+AO Sessions
+Settings
+
+At the bottom:
+
+AgentHeal
+Track 1
+Automated Agent Engineering
+
+---
+
+# 7. HOME / DASHBOARD
+
+Create a professional dashboard.
+
+Show:
+
+Total Agents
+12
+
+Active Agents
+7
+
+Average Accuracy
+91.4%
+
+Average Improvement
++18.7%
+
+Total Tests
+428
+
+Then show:
+
+## Agent Improvement Activity
+
+Display a timeline:
+
+Agent V1 Created
+↓
+Testing Started
+↓
+Failures Detected
+↓
+Optimization Completed
+↓
+Agent V2 Created
+↓
+Performance Improved
+
+Also show an improvement chart.
+
+Example:
+
+V1 = 61%
+V2 = 83%
+V3 = 94%
+
+Clearly label these as demo/evaluation data unless they come from actual runs.
+
+---
+
+# 8. CREATE AGENT PAGE
+
+This is the most important page.
+
+Large input:
+
+"What kind of AI agent do you need?"
+
+Example:
+
+"I need an AI agent that handles e-commerce customer complaints, refunds, replacements and order issues."
+
+Button:
+
+BUILD AGENT
+
+Additional optional fields:
+
+Agent Name
+Industry
+Goal
+Required Tools
+Restrictions
+Expected Output
+Priority
+
+When BUILD AGENT is clicked:
+
+Show:
+
+Analyzing requirement...
+
+Then:
+
+✓ Requirement understood
+✓ Agent architecture created
+✓ Instructions generated
+✓ Test strategy created
+
+Then create Agent V1.
+
+---
+
+# 9. TASK ANALYZER
+
+Create an AI module:
+
+TaskAnalyzer.
+
+Input:
+Natural-language user requirement.
+
+Output JSON:
+
+{
+"task": "...",
+"domain": "...",
+"goal": "...",
+"userTypes": [],
+"constraints": [],
+"requiredCapabilities": [],
+"requiredTools": [],
+"evaluationCriteria": []
+}
+
+Validate the JSON before using it.
+
+If AI output is invalid, retry safely.
+
+---
+
+# 10. AGENT ARCHITECT
+
+Create AgentArchitect.
+
+Input:
+
+TaskAnalyzer output.
+
+Generate:
+
+{
+"agentName": "...",
+"role": "...",
+"objective": "...",
+"systemInstructions": "...",
+"tools": [],
+"memoryStrategy": "...",
+"workflow": [],
+"constraints": [],
+"successCriteria": []
+}
+
+The architecture must be stored.
+
+---
+
+# 11. AGENT GENERATOR
+
+Create AgentGenerator.
+
+It should transform the architecture into a runnable agent configuration.
+
+Every generated agent must have:
+
+* ID
+* Name
+* Version
+* System prompt
+* Tools
+* Workflow
+* Constraints
+* Evaluation criteria
+* Created timestamp
+
+Start with:
+
+V1
+
+Never overwrite old versions.
+
+---
+
+# 12. TEST CASE GENERATOR
+
+Create TestCaseGenerator.
+
+It receives:
+
+Task
+Agent architecture
+Evaluation criteria
+
+Generate multiple test cases.
+
+Each test case:
+
+{
+"id": "...",
+"category": "...",
+"input": "...",
+"expectedBehavior": "...",
+"evaluationCriteria": [],
+"severity": "low | medium | high"
+}
+
+For the customer support example, generate cases such as:
+
+* Refund request
+* Replacement request
+* Damaged product
+* Late delivery
+* Unknown order
+* Angry customer
+* Policy violation
+* Missing information
+* Out-of-policy request
+
+Do NOT make the tests all identical.
+
+---
+
+# 13. TESTING LAB
+
+Create a Testing Lab page.
+
+Show:
+
+Agent Version:
+V1
+
+Tests:
+50
+
+Run Tests button.
+
+During execution show:
+
+Preparing test cases
+Running test 1/50
+Running test 2/50
+...
+Evaluation completed
+
+Display:
+
+Passed
+Failed
+Accuracy
+Policy Compliance
+Response Quality
+Hallucination Rate
+Average Response Time
+
+Use real calculated values whenever possible.
+
+Do NOT randomly generate fake scores after execution.
+
+---
+
+# 14. EVALUATOR
+
+Create an Evaluator module.
+
+The evaluator must compare:
+
+Agent response
+Expected behavior
+Evaluation criteria
+
+Generate:
+
+{
+"passed": true,
+"score": 0-100,
+"criteriaScores": {},
+"failureType": null,
+"reason": "...",
+"severity": "...",
+"suggestion": "..."
+}
+
+Evaluation should consider:
+
+1. Correctness
+2. Instruction following
+3. Policy compliance
+4. Relevance
+5. Completeness
+6. Hallucination
+7. Tool usage where applicable
+
+---
+
+# 15. FAILURE ANALYZER
+
+This is one of the most important features.
+
+Create:
+
+FailureAnalyzer.
+
+It should examine failed test cases and determine:
+
+* What failed?
+* Why did it fail?
+* Was the problem caused by instructions?
+* Missing constraint?
+* Missing tool?
+* Bad workflow?
+* Missing context?
+* Incorrect reasoning?
+* Policy issue?
+
+Example:
+
+Failure:
+
+Customer requested replacement.
+
+Agent responded with refund instructions.
+
+Diagnosis:
+
+The agent does not clearly distinguish replacement requests from refund requests.
+
+Recommended improvement:
+
+Add explicit replacement-vs-refund decision rules.
+
+Display this visually:
+
+FAILURE DETECTED
+
+Problem:
+Intent classification error
+
+Root Cause:
+Insufficient instruction
+
+Recommended Fix:
+Add explicit replacement/refund routing rule
+
+---
+
+# 16. OPTIMIZER
+
+Create:
+
+AgentOptimizer.
+
+Input:
+
+Current agent
+Failed tests
+Failure analysis
+
+Output:
+
+Improved agent configuration.
+
+The optimizer can modify:
+
+* System instructions
+* Constraints
+* Workflow
+* Tool selection
+* Decision rules
+* Memory strategy
+
+Do NOT modify everything blindly.
+
+The optimizer should explain:
+
+WHAT CHANGED
+WHY IT CHANGED
+EXPECTED IMPACT
+
+Example:
+
+V1 → V2
+
+Added:
+
+* Explicit refund/replacement classification rule
+* Policy validation step
+* Missing-information check
+
+Reason:
+3 test failures were caused by incorrect request classification.
+
+---
+
+# 17. IMPROVEMENT LOOP
+
+Implement:
+
+async function improveAgent(agent, testResults) {
+
+```
+const failures = analyzeFailures(testResults);
+
+if (failures.length === 0) {
+    return agent;
+}
+
+const improvements =
+    await generateImprovements(agent, failures);
+
+const improvedAgent =
+    await createNewVersion(agent, improvements);
+
+return improvedAgent;
+```
+
+}
+
+Then:
+
+V1
+↓
+Test
+↓
+Failures
+↓
+Analyze
+↓
+Optimize
+↓
+V2
+↓
+Test
+↓
+Compare
+
+Continue for a limited number of iterations, such as:
+
+MAX_ITERATIONS = 3
+
+Do NOT create infinite loops.
+
+---
+
+# 18. VERSION COMPARISON
+
+Create Version History.
+
+Example:
+
+| Metric | V1 | V2 | V3 |
+| Accuracy | 61% | 83% | 94% |
+| Policy | 72% | 89% | 96% |
+| Quality | 68% | 84% | 92% |
+| Failures | 19 | 8 | 3 |
+
+Highlight the best version.
+
+Show:
+
+Improvement:
++33%
+
+Also show exactly what changed between versions.
+
+---
+
+# 19. BEST VERSION SELECTION
+
+Create a simple scoring function.
+
+Example:
+
+finalScore =
+accuracy * 0.40 +
+policyCompliance * 0.25 +
+responseQuality * 0.20 +
+reliability * 0.15
+
+The weights should be configurable.
+
+Select the highest-scoring version.
+
+Do NOT simply select the newest version.
+
+---
+
+# 20. AGENT PLAYGROUND
+
+After an agent is created, provide:
+
+Agent Playground
+
+User can enter:
+
+"Where is my order?"
+
+and see:
+
+USER INPUT
+↓
+AGENT
+↓
+RESPONSE
+
+Also show optional debug information:
+
+Agent Version
+Tools Used
+Decision Path
+Evaluation Status
+
+Keep sensitive/internal reasoning hidden. Show only useful execution metadata, not private chain-of-thought.
+
+---
+
+# 21. AO SESSIONS PAGE
+
+Create a dedicated AO Sessions page.
+
+This is important for the hackathon.
+
+Show:
+
+AO Session ID
+Agent
+Task
+Actions
+Status
+Evaluation
+Improvement
+
+Create a timeline such as:
+
+AO Session Started
+↓
+Task Analyzed
+↓
+Agent Generated
+↓
+Testing
+↓
+Failure Detection
+↓
+Optimization
+↓
+Retesting
+↓
+Completed
+
+Do not fabricate claims of real AO execution.
+
+If an AO API/integration is available, connect to it properly.
+
+If AO integration is not yet configured, clearly mark the UI as:
+
+AO Integration: Configuration Required
+
+Do NOT falsely claim that a backend AO session occurred.
+
+---
+
+# 22. DATABASE MODELS
+
+Create models for:
+
+Agent
+AgentVersion
+TestCase
+TestRun
+Evaluation
+Failure
+Improvement
+AO Session
+
+Example AgentVersion:
+
+{
+"agentId": "...",
+"version": 1,
+"configuration": {},
+"metrics": {},
+"createdAt": "..."
+}
+
+Never destroy previous versions.
+
+---
+
+# 23. API ROUTES
+
+Create clean backend APIs.
+
+POST /api/agents/analyze
+
+POST /api/agents/create
+
+POST /api/agents/:id/test
+
+POST /api/agents/:id/evaluate
+
+POST /api/agents/:id/analyze-failures
+
+POST /api/agents/:id/improve
+
+POST /api/agents/:id/iterate
+
+GET /api/agents
+
+GET /api/agents/:id
+
+GET /api/agents/:id/versions
+
+GET /api/agents/:id/tests
+
+GET /api/agents/:id/improvements
+
+POST /api/agents/:id/chat
+
+---
+
+# 24. ERROR HANDLING
+
+This is extremely important.
+
+Every API call must have:
+
+* timeout
+* try/catch
+* useful error message
+* loading state
+* retry option
+
+Never leave the UI permanently loading.
+
+If Gemini API fails:
+
+Show:
+
+"AI service temporarily unavailable. Retry."
+
+Do NOT crash the application.
+
+---
+
+# 25. API KEY MANAGEMENT
+
+Use:
+
+.env
+
+Example:
+
+GEMINI_API_KEY=
+
+Never expose the API key in frontend code.
+
+Create:
+
+.env.example
+
+Never commit real keys.
+
+---
+
+# 26. DEMO MODE
+
+Implement a DEMO MODE.
+
+This allows the complete hackathon demo to work even if the external AI API temporarily fails.
+
+Demo mode must still execute the same workflow architecture.
+
+Clearly label:
+
+DEMO MODE
+
+Do not pretend demo results are real external AI measurements.
+
+When API is available, use real AI responses.
+
+---
+
+# 27. CUSTOMER SUPPORT DEMO
+
+Create one preconfigured demo agent:
+
+Name:
+
+SupportPilot
+
+Description:
+
+E-commerce Customer Support Agent
+
+Capabilities:
+
+* Refund requests
+* Replacement requests
+* Delivery issues
+* Damaged product complaints
+* Order-status questions
+* Policy handling
+
+Create intentionally challenging test cases.
+
+The demonstration should show:
+
+V1 has failures.
+
+Failure analyzer identifies the problems.
+
+Optimizer modifies the agent.
+
+V2 performs better.
+
+This should be visually obvious.
+
+---
+
+# 28. IMPORTANT DEMO SCENARIO
+
+Build one complete deterministic demo:
+
+Input:
+
+"My package arrived damaged and I want a replacement."
+
+V1:
+
+Incorrectly routes to refund.
+
+Evaluator:
+
+FAIL
+
+Failure Analyzer:
+
+Identifies incorrect intent handling.
+
+Optimizer:
+
+Adds replacement/refund decision logic.
+
+V2:
+
+Correctly identifies replacement request.
+
+Evaluator:
+
+PASS
+
+Dashboard:
+
+V1 → Failed
+V2 → Passed
+
+This is the primary live demonstration.
+
+Do not hardcode the final score as if it came from real testing.
+
+---
+
+# 29. UI COMPONENTS
+
+Create reusable:
+
+Button
+Card
+Badge
+Modal
+ProgressBar
+MetricCard
+AgentCard
+TestCaseCard
+FailureCard
+ImprovementCard
+VersionComparison
+Timeline
+AgentStatus
+LoadingState
+ErrorState
+EmptyState
+Toast
+
+---
+
+# 30. RESPONSIVENESS
+
+Desktop-first because this is a hackathon dashboard.
+
+Also support:
+
+Tablet
+Mobile
+
+No horizontal scrolling.
+
+No unnecessary page-level scrollbar.
+
+Keep navigation stable.
+
+---
+
+# 31. QUALITY REQUIREMENTS
+
+Before considering the project complete, test:
+
+* npm install
+* npm run build
+* frontend starts
+* backend starts
+* API communication
+* agent creation
+* test generation
+* evaluation
+* failure analysis
+* optimization
+* version creation
+* version comparison
+* playground
+* demo mode
+
+Fix all TypeScript errors.
+
+Fix console errors.
+
+Fix broken imports.
+
+Fix broken routes.
+
+Fix loading states.
+
+Fix empty states.
+
+---
+
+# 32. DO NOT DO THESE THINGS
+
+Do NOT:
+
+* build unnecessary features
+* add fake integrations
+* claim fake AO execution
+* use fake metrics as real measurements
+* create infinite agent loops
+* expose API keys
+* hardcode every response
+* create a giant monolithic file
+* add unnecessary authentication
+* add payment systems
+* integrate Amazon/Flipkart/etc.
+* build complex infrastructure
+* sacrifice functionality for animations
+
+---
+
+# 33. HACKATHON DEMO FLOW
+
+The final demo should take approximately 3–5 minutes.
+
+Demo:
+
+1. Open AgentHeal.
+2. Explain the problem.
+3. Click Create Agent.
+4. Enter a natural-language requirement.
+5. Show Task Analyzer.
+6. Generate Agent V1.
+7. Generate test cases.
+8. Run tests.
+9. Show failures.
+10. Open Failure Analysis.
+11. Show root cause.
+12. Click Improve Agent.
+13. Generate V2.
+14. Run tests again.
+15. Compare V1 vs V2.
+16. Show measurable improvement.
+17. Open Agent Playground.
+18. Ask the improved agent a question.
+19. Show AO Session evidence/integration.
+20. Explain autonomous improvement loop.
+
+---
+
+# 34. FINAL PRODUCT MESSAGE
+
+The website should communicate:
+
+> "Instead of manually engineering every AI agent, AgentHeal autonomously builds, tests, diagnoses, and improves task-specific agents."
+
+Short version:
+
+> BUILD → TEST → DIAGNOSE → IMPROVE → RETEST → DEPLOY
+
+---
+
+# 35. IMPLEMENTATION STRATEGY FOR ANTIGRAVITY
+
+IMPORTANT:
+
+Do NOT attempt the entire project in one giant implementation step.
+
+Implement in stages.
+
+Stage 1:
+Create project architecture + frontend shell.
+
+Stage 2:
+Create Create Agent workflow.
+
+Stage 3:
+Implement Gemini integration.
+
+Stage 4:
+Implement Agent Generator.
+
+Stage 5:
+Implement Test Generator.
+
+Stage 6:
+Implement Evaluator.
+
+Stage 7:
+Implement Failure Analyzer.
+
+Stage 8:
+Implement Optimizer.
+
+Stage 9:
+Implement version comparison.
+
+Stage 10:
+Implement Agent Playground.
+
+Stage 11:
+Implement AO integration/evidence.
+
+Stage 12:
+Testing + bug fixing + polish.
+
+After each stage:
+
+1. Run the application.
+2. Check build.
+3. Check console.
+4. Fix errors.
+5. Continue.
+
+Never move forward while the current stage is broken.
+
+---
+
+# 36. MOST IMPORTANT ENGINEERING RULE
+
+Do not build a fake UI that only looks autonomous.
+
+The actual backend workflow must execute:
+
+Requirement
+→ Analysis
+→ Agent generation
+→ Testing
+→ Evaluation
+→ Failure analysis
+→ Optimization
+→ New version
+→ Retesting
+→ Comparison
+
+Store every step.
+
+Display every step.
+
+Make the workflow traceable.
+
+The user should be able to understand:
+
+WHAT happened?
+WHY did it fail?
+WHAT changed?
+DID it improve?
+
+---
+
+# 37. FINAL ACCEPTANCE CRITERIA
+
+The project is complete only when a user can:
+
+✓ Enter a new agent requirement
+
+✓ Generate a task-specific agent
+
+✓ Generate test cases
+
+✓ Run tests
+
+✓ Evaluate responses
+
+✓ Identify failures
+
+✓ Automatically generate improvements
+
+✓ Create a new agent version
+
+✓ Retest
+
+✓ Compare versions
+
+✓ Select the best agent
+
+✓ Use the agent in a playground
+
+✓ View the complete improvement history
+
+✓ View AO-related workflow/evidence
+
+✓ Run the project reliably
+
+✓ Build the project successfully
+
+The final result must feel like a real AI engineering product, not a static hackathon mockup.
+
+Build it cleanly, modularly, and incrementally.
