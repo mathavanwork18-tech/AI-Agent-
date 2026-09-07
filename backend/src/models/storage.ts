@@ -5,9 +5,31 @@ import { Agent, TestCase, TestRun, FailureAnalysisReport, AOSession, AppSettings
 import { SEED_AGENT, SEED_TEST_CASES, SEED_FAILURE_REPORT, SEED_AO_SESSIONS, SEED_DEPLOYMENT } from './seedData.js';
 import { TestCaseGenerator } from '../ai/testGenerator.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const DATA_DIR = path.resolve(__dirname, '../../data');
+const getDirname = (): string => {
+  try {
+    if (typeof __dirname !== 'undefined' && __dirname) return __dirname;
+    if (typeof import.meta !== 'undefined' && import.meta && typeof import.meta.url === 'string') {
+      return path.dirname(fileURLToPath(import.meta.url));
+    }
+  } catch {
+    // ignore
+  }
+  return process.cwd();
+};
+
+const currentDir = getDirname();
+const candidates = [
+  path.resolve(currentDir, '../../data'),
+  path.resolve(currentDir, 'backend/data'),
+  path.resolve(process.cwd(), 'backend/data'),
+  path.resolve(process.cwd(), 'data'),
+  path.resolve('/tmp')
+];
+
+const DATA_DIR = candidates.find(dir => {
+  try { return fs.existsSync(dir); } catch { return false; }
+}) || path.resolve(process.cwd(), 'backend/data');
+
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 
 interface DatabaseSchema {
@@ -87,9 +109,16 @@ class StorageRepository {
       if (!fs.existsSync(DATA_DIR)) {
         fs.mkdirSync(DATA_DIR, { recursive: true });
       }
-      fs.writeFileSync(DB_FILE, JSON.stringify(this.db, null, 2), 'utf-8');
+      const safeDb = {
+        ...this.db,
+        settings: {
+          ...this.db.settings,
+          geminiApiKey: ''
+        }
+      };
+      fs.writeFileSync(DB_FILE, JSON.stringify(safeDb, null, 2), 'utf-8');
     } catch (err) {
-      console.error('Failed to persist database:', err);
+      // Safe fallback in serverless environments
     }
   }
 

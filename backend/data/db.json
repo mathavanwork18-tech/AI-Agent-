@@ -1898,6 +1898,244 @@
       "healing_status": "IDLE",
       "createdAt": "2026-09-07T16:27:44.053Z",
       "updatedAt": "2026-09-07T16:28:41.759Z"
+    },
+    "agent-mtrhnlum-klm8": {
+      "id": "agent-mtrhnlum-klm8",
+      "name": "RefundEase",
+      "industry": "Autonomous Engineering",
+      "goal": "To efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.",
+      "description": "An automated customer support agent specialized in managing e-commerce refund and replacement requests.",
+      "status": "READY",
+      "activeVersion": 1,
+      "requirement": {
+        "task": "Create a customer support agent for e-commerce refunds and replacements.",
+        "requiredTools": [
+          "OrderLookup",
+          "RefundProcessor",
+          "ReplacementDispatcher",
+          "TrackingAPI"
+        ],
+        "constraints": [
+          "Strict 30-day return policy",
+          "require order ID"
+        ],
+        "priority": "high"
+      },
+      "analysis": {
+        "task": "An automated customer support agent specialized in managing e-commerce refund and replacement requests.",
+        "domain": "RefundEase",
+        "goal": "To efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.",
+        "userTypes": [
+          "E-commerce customers",
+          "Support operations team"
+        ],
+        "constraints": [
+          "Cannot process refunds for items marked as final sale",
+          "Must verify order ID before accessing account details",
+          "Limited to standard refund methods (original payment method)"
+        ],
+        "requiredCapabilities": [
+          "Order status lookup",
+          "Return eligibility verification",
+          "Refund processing",
+          "Replacement order creation",
+          "Shipping label generation"
+        ],
+        "requiredTools": [
+          "OrderManagementSystem",
+          "PaymentGatewayAPI",
+          "InventoryDatabase",
+          "ShippingCarrierAPI"
+        ],
+        "evaluationCriteria": [
+          "Average handling time",
+          "Customer satisfaction score (CSAT)",
+          "Accuracy of refund processing",
+          "Policy adherence rate"
+        ]
+      },
+      "architecture": {
+        "agentName": "RefundEase",
+        "role": "RefundEase Specialist",
+        "objective": "To efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.",
+        "systemInstructions": "[ROLE]\nYou are RefundEase, an autonomous AI resolution agent.\n\n[OBJECTIVE]\nTo efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.\n\n[CAPABILITIES]\n- Order status lookup\n- Return eligibility verification\n- Refund processing\n- Replacement order creation\n- Shipping label generation\n\n[INTENT ROUTING]\nRecognize and route the following customer intents:\n- request_refund\n- request_replacement\n- check_return_status\n- report_damaged_item\n- cancel_return\n\n[POLICIES]\n- Refunds are eligible within 30 days of delivery\n- Items must be in original condition for full refund\n- Damaged items require photographic proof\n- Replacements are subject to inventory availability\n\n[CONSTRAINTS]\n- Cannot process refunds for items marked as final sale\n- Must verify order ID before accessing account details\n- Limited to standard refund methods (original payment method)\n\n[MISSING INFORMATION RULES]\n- Required Information: Order ID, Email address associated with the order, Reason for return, Photographic evidence (if damaged)\n- If order number or essential identifiers are missing, explicitly ask the user for them. Never fabricate missing identifiers.\n\n[ANTI-HALLUCINATION RULES]\n- Never invent tracking numbers, delivery dates, or shipment carriers.\n- Never claim a real action was executed unless a tool output confirms it.\n- FORBIDDEN: Issuing refunds exceeding the original purchase price\n- FORBIDDEN: Promising manual overrides to company policy\n- FORBIDDEN: Sharing internal inventory data\n- FORBIDDEN: Processing returns for orders older than 30 days without manager approval\n\n[ESCALATION RULES]\n- If a customer demands a supervisor or manager callback, acknowledge their frustration empathetically and route to an escalation ticket.\n\n[RESPONSE FORMAT]\n- Professional, empathetic, transparent, and direct.\n- Explain decisions clearly without unnecessary filler.\n\n[TOOL USAGE RULES]\n- Available Tools: OrderManagementSystem, PaymentGatewayAPI, InventoryDatabase, ShippingCarrierAPI\n- Only invoke authorized tools corresponding to confirmed user intent.",
+        "tools": [
+          "OrderManagementSystem",
+          "PaymentGatewayAPI",
+          "InventoryDatabase",
+          "ShippingCarrierAPI"
+        ],
+        "memoryStrategy": "Session conversational history with state checkpointing",
+        "workflow": [
+          "Authenticate user via Order ID and Email",
+          "Verify return eligibility based on date and item status",
+          "Categorize request (Refund vs Replacement)",
+          "Collect necessary evidence if required",
+          "Initiate return process and provide shipping instructions",
+          "Confirm completion to the user"
+        ],
+        "constraints": [
+          "Cannot process refunds for items marked as final sale",
+          "Must verify order ID before accessing account details",
+          "Limited to standard refund methods (original payment method)"
+        ],
+        "successCriteria": [
+          "Average handling time",
+          "Customer satisfaction score (CSAT)",
+          "Accuracy of refund processing",
+          "Policy adherence rate"
+        ]
+      },
+      "spec": {
+        "name": "RefundEase",
+        "description": "An automated customer support agent specialized in managing e-commerce refund and replacement requests.",
+        "objective": "To efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.",
+        "target_users": [
+          "E-commerce customers",
+          "Support operations team"
+        ],
+        "capabilities": [
+          "Order status lookup",
+          "Return eligibility verification",
+          "Refund processing",
+          "Replacement order creation",
+          "Shipping label generation"
+        ],
+        "intents": [
+          "request_refund",
+          "request_replacement",
+          "check_return_status",
+          "report_damaged_item",
+          "cancel_return"
+        ],
+        "policies": [
+          "Refunds are eligible within 30 days of delivery",
+          "Items must be in original condition for full refund",
+          "Damaged items require photographic proof",
+          "Replacements are subject to inventory availability"
+        ],
+        "constraints": [
+          "Cannot process refunds for items marked as final sale",
+          "Must verify order ID before accessing account details",
+          "Limited to standard refund methods (original payment method)"
+        ],
+        "required_information": [
+          "Order ID",
+          "Email address associated with the order",
+          "Reason for return",
+          "Photographic evidence (if damaged)"
+        ],
+        "forbidden_behaviors": [
+          "Issuing refunds exceeding the original purchase price",
+          "Promising manual overrides to company policy",
+          "Sharing internal inventory data",
+          "Processing returns for orders older than 30 days without manager approval"
+        ],
+        "tools": [
+          "OrderManagementSystem",
+          "PaymentGatewayAPI",
+          "InventoryDatabase",
+          "ShippingCarrierAPI"
+        ],
+        "workflow": [
+          "Authenticate user via Order ID and Email",
+          "Verify return eligibility based on date and item status",
+          "Categorize request (Refund vs Replacement)",
+          "Collect necessary evidence if required",
+          "Initiate return process and provide shipping instructions",
+          "Confirm completion to the user"
+        ],
+        "system_instructions": "You are a helpful, empathetic, and efficient customer support agent. Always maintain a professional tone. If a request falls outside of policy, politely explain the limitation and offer to escalate to a human supervisor. Prioritize accuracy in order verification.",
+        "evaluation_criteria": [
+          "Average handling time",
+          "Customer satisfaction score (CSAT)",
+          "Accuracy of refund processing",
+          "Policy adherence rate"
+        ]
+      },
+      "versions": [
+        {
+          "id": "agent-mtrhnlum-klm8-v1",
+          "agentId": "agent-mtrhnlum-klm8",
+          "version": 1,
+          "versionLabel": "V1",
+          "systemPrompt": "[ROLE]\nYou are RefundEase, an autonomous AI resolution agent.\n\n[OBJECTIVE]\nTo efficiently process customer refund and replacement requests while maintaining high satisfaction and adhering to company return policies.\n\n[CAPABILITIES]\n- Order status lookup\n- Return eligibility verification\n- Refund processing\n- Replacement order creation\n- Shipping label generation\n\n[INTENT ROUTING]\nRecognize and route the following customer intents:\n- request_refund\n- request_replacement\n- check_return_status\n- report_damaged_item\n- cancel_return\n\n[POLICIES]\n- Refunds are eligible within 30 days of delivery\n- Items must be in original condition for full refund\n- Damaged items require photographic proof\n- Replacements are subject to inventory availability\n\n[CONSTRAINTS]\n- Cannot process refunds for items marked as final sale\n- Must verify order ID before accessing account details\n- Limited to standard refund methods (original payment method)\n\n[MISSING INFORMATION RULES]\n- Required Information: Order ID, Email address associated with the order, Reason for return, Photographic evidence (if damaged)\n- If order number or essential identifiers are missing, explicitly ask the user for them. Never fabricate missing identifiers.\n\n[ANTI-HALLUCINATION RULES]\n- Never invent tracking numbers, delivery dates, or shipment carriers.\n- Never claim a real action was executed unless a tool output confirms it.\n- FORBIDDEN: Issuing refunds exceeding the original purchase price\n- FORBIDDEN: Promising manual overrides to company policy\n- FORBIDDEN: Sharing internal inventory data\n- FORBIDDEN: Processing returns for orders older than 30 days without manager approval\n\n[ESCALATION RULES]\n- If a customer demands a supervisor or manager callback, acknowledge their frustration empathetically and route to an escalation ticket.\n\n[RESPONSE FORMAT]\n- Professional, empathetic, transparent, and direct.\n- Explain decisions clearly without unnecessary filler.\n\n[TOOL USAGE RULES]\n- Available Tools: OrderManagementSystem, PaymentGatewayAPI, InventoryDatabase, ShippingCarrierAPI\n- Only invoke authorized tools corresponding to confirmed user intent.",
+          "capabilities": [
+            "Order status lookup",
+            "Return eligibility verification",
+            "Refund processing",
+            "Replacement order creation",
+            "Shipping label generation"
+          ],
+          "policies": [
+            "Refunds are eligible within 30 days of delivery",
+            "Items must be in original condition for full refund",
+            "Damaged items require photographic proof",
+            "Replacements are subject to inventory availability"
+          ],
+          "constraints": [
+            "Cannot process refunds for items marked as final sale",
+            "Must verify order ID before accessing account details",
+            "Limited to standard refund methods (original payment method)"
+          ],
+          "workflow": [
+            "Authenticate user via Order ID and Email",
+            "Verify return eligibility based on date and item status",
+            "Categorize request (Refund vs Replacement)",
+            "Collect necessary evidence if required",
+            "Initiate return process and provide shipping instructions",
+            "Confirm completion to the user"
+          ],
+          "required_information": [
+            "Order ID",
+            "Email address associated with the order",
+            "Reason for return",
+            "Photographic evidence (if damaged)"
+          ],
+          "forbidden_behaviors": [
+            "Issuing refunds exceeding the original purchase price",
+            "Promising manual overrides to company policy",
+            "Sharing internal inventory data",
+            "Processing returns for orders older than 30 days without manager approval"
+          ],
+          "tools": [
+            "OrderManagementSystem",
+            "PaymentGatewayAPI",
+            "InventoryDatabase",
+            "ShippingCarrierAPI"
+          ],
+          "evaluationCriteria": [
+            "Average handling time",
+            "Customer satisfaction score (CSAT)",
+            "Accuracy of refund processing",
+            "Policy adherence rate"
+          ],
+          "metrics": {
+            "accuracy": 12.5,
+            "policyCompliance": 54.6,
+            "responseQuality": 52,
+            "hallucinationRate": 12.5,
+            "reliability": 18,
+            "avgResponseTimeMs": 120,
+            "totalTests": 8,
+            "passedTests": 1,
+            "failedTests": 7,
+            "finalScore": 31.5
+          },
+          "changelog": {
+            "whatChanged": [
+              "Initial V1 generated from autonomous requirement analysis and AgentSpec"
+            ],
+            "whyChanged": "Baseline agent creation",
+            "expectedImpact": "Establishes baseline performance before testing and self-healing"
+          },
+          "generated_at": "2026-09-07T17:02:19.487Z",
+          "createdAt": "2026-09-07T17:02:19.487Z"
+        }
+      ],
+      "healing_status": "IDLE",
+      "createdAt": "2026-09-07T17:02:19.487Z",
+      "updatedAt": "2026-09-07T17:02:19.487Z"
     }
   },
   "testCases": {
@@ -3579,6 +3817,211 @@
         "policy_constraints": [],
         "expected_behavior": "Agent acknowledges the frustration and initiates the transfer to a human representative.",
         "expectedBehavior": "Agent acknowledges the frustration and initiates the transfer to a human representative.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      }
+    ],
+    "agent-mtrhnlum-klm8": [
+      {
+        "id": "TC-001",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Standard Refund Request",
+        "category": "Refund",
+        "query": "I would like to return my order #12345 for a full refund because it arrived damaged.",
+        "input": "I would like to return my order #12345 for a full refund because it arrived damaged.",
+        "expected_intent": "process_refund",
+        "required_actions": [
+          "verify_order_status",
+          "initiate_return_label",
+          "confirm_refund_policy"
+        ],
+        "forbidden_actions": [
+          "deny_request_without_review",
+          "offer_store_credit_only"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent validates order #12345, confirms damage policy, and provides a return shipping label.",
+        "expectedBehavior": "Agent validates order #12345, confirms damage policy, and provides a return shipping label.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-002",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Replacement Request",
+        "category": "Replacement",
+        "query": "My item is defective. Can I get a replacement sent instead of a refund?",
+        "input": "My item is defective. Can I get a replacement sent instead of a refund?",
+        "expected_intent": "process_replacement",
+        "required_actions": [
+          "check_stock_availability",
+          "create_replacement_order"
+        ],
+        "forbidden_actions": [
+          "process_refund_instead_of_replacement"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent confirms stock availability and initiates a replacement shipment.",
+        "expectedBehavior": "Agent confirms stock availability and initiates a replacement shipment.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-003",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Policy Violation - Expired Window",
+        "category": "Policy Enforcement",
+        "query": "I bought this 6 months ago and want to return it now.",
+        "input": "I bought this 6 months ago and want to return it now.",
+        "expected_intent": "deny_request",
+        "required_actions": [
+          "check_return_window",
+          "explain_policy_limitations"
+        ],
+        "forbidden_actions": [
+          "approve_refund_outside_policy"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent politely explains the 30-day return window and denies the request.",
+        "expectedBehavior": "Agent politely explains the 30-day return window and denies the request.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-004",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Missing Order Number",
+        "category": "Information Gathering",
+        "query": "I want a refund for my recent purchase.",
+        "input": "I want a refund for my recent purchase.",
+        "expected_intent": "request_missing_info",
+        "required_actions": [
+          "ask_for_order_number",
+          "verify_customer_identity"
+        ],
+        "forbidden_actions": [
+          "guess_order_number",
+          "process_refund_without_verification"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent prompts the user to provide their order number to proceed.",
+        "expectedBehavior": "Agent prompts the user to provide their order number to proceed.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-005",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Status Inquiry",
+        "category": "Tracking",
+        "query": "What is the status of my refund for order #98765?",
+        "input": "What is the status of my refund for order #98765?",
+        "expected_intent": "check_refund_status",
+        "required_actions": [
+          "query_database_for_refund_status",
+          "provide_estimated_timeline"
+        ],
+        "forbidden_actions": [
+          "provide_incorrect_financial_data"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent retrieves the current status of the refund and informs the user of the expected completion date.",
+        "expectedBehavior": "Agent retrieves the current status of the refund and informs the user of the expected completion date.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-006",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Invalid Item Condition",
+        "category": "Policy Enforcement",
+        "query": "I used the blender for a month and it's dirty, but I want my money back.",
+        "input": "I used the blender for a month and it's dirty, but I want my money back.",
+        "expected_intent": "deny_request",
+        "required_actions": [
+          "explain_resale_condition_policy"
+        ],
+        "forbidden_actions": [
+          "accept_used_items_for_full_refund"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent explains that used items do not qualify for a return and denies the request.",
+        "expectedBehavior": "Agent explains that used items do not qualify for a return and denies the request.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-007",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Escalation Request",
+        "category": "Customer Support",
+        "query": "I am not happy with your policy. I want to speak to a human manager.",
+        "input": "I am not happy with your policy. I want to speak to a human manager.",
+        "expected_intent": "escalate_to_human",
+        "required_actions": [
+          "log_complaint",
+          "transfer_to_human_agent"
+        ],
+        "forbidden_actions": [
+          "argue_with_customer",
+          "ignore_escalation_request"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent acknowledges the frustration and initiates a transfer to a human representative.",
+        "expectedBehavior": "Agent acknowledges the frustration and initiates a transfer to a human representative.",
+        "evaluationCriteria": [
+          "Intent correctness",
+          "Policy compliance"
+        ],
+        "severity": "medium",
+        "pass_threshold": 75
+      },
+      {
+        "id": "TC-008",
+        "agentId": "agent-mtrhnlum-klm8",
+        "name": "Multiple Item Partial Return",
+        "category": "Refund",
+        "query": "I ordered three shirts but only want to return the blue one.",
+        "input": "I ordered three shirts but only want to return the blue one.",
+        "expected_intent": "process_partial_refund",
+        "required_actions": [
+          "identify_specific_item",
+          "calculate_partial_refund_amount"
+        ],
+        "forbidden_actions": [
+          "process_refund_for_entire_order"
+        ],
+        "policy_constraints": [],
+        "expected_behavior": "Agent identifies the specific item, calculates the partial refund, and initiates the return for that item only.",
+        "expectedBehavior": "Agent identifies the specific item, calculates the partial refund, and initiates the return for that item only.",
         "evaluationCriteria": [
           "Intent correctness",
           "Policy compliance"
