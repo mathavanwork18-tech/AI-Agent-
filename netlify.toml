@@ -1,0 +1,23 @@
+[build]
+  command = "npm run install:all && npm run build"
+  publish = "frontend/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Direct all API requests to the Netlify serverless function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Single Page App (SPA) fallback to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

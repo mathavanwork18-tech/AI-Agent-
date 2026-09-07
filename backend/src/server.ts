@@ -40,8 +40,16 @@ app.use((req, res, next) => {
   next();
 });
 
+// Netlify & reverse proxy URL normalization
+app.use((req, res, next) => {
+  if (req.url.startsWith('/.netlify/functions/api')) {
+    req.url = req.url.replace('/.netlify/functions/api', '/api') || '/';
+  }
+  next();
+});
+
 // Healthcheck
-app.get('/api/health', (req, res) => {
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({
     status: 'ok',
     service: 'AgentHeal Backend',
@@ -72,9 +80,15 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
-app.listen(Number(PORT), '0.0.0.0', () => {
-  console.log(`=============================================`);
-  console.log(`🚀 AgentHeal Backend API running on port ${PORT}`);
-  console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`=============================================`);
-});
+// Listen when run as a standalone server (not on Vercel or Netlify)
+if (!process.env.VERCEL && !process.env.NETLIFY && process.env.AWS_LAMBDA_FUNCTION_NAME === undefined) {
+  app.listen(Number(PORT), '0.0.0.0', () => {
+    console.log(`=============================================`);
+    console.log(`🚀 AgentHeal Backend API running on port ${PORT}`);
+    console.log(`🔗 Health Check: http://localhost:${PORT}/api/health`);
+    console.log(`=============================================`);
+  });
+}
+
+export default app;
+export { app };

@@ -264,6 +264,11 @@ class StorageRepository {
     return this.db.users[userId] || null;
   }
 
+  getAllUsers(): any[] {
+    if (!this.db.users) return [];
+    return Object.values(this.db.users);
+  }
+
   // RESET TO SEED
   resetToSeed(): void {
     this.db = {

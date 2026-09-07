@@ -28,7 +28,8 @@ router.post('/onboard', async (req, res) => {
       success: true,
       data: {
         userId: user._id,
-        name: user.name
+        name: user.name,
+        createdAt: user.createdAt
       },
       error: null
     });
@@ -45,6 +46,30 @@ router.post('/onboard', async (req, res) => {
   }
 });
 
+// GET /api/users - List all registered users (masked mobile for security)
+router.get('/', async (req, res) => {
+  try {
+    const users = await UserModel.getAllUsers();
+    const safeUsers = users.map((u: any) => ({
+      _id: u._id,
+      name: u.name,
+      mobile: u.mobile ? u.mobile.replace(/(\d{3})\d+(\d{4})/, '$1****$2') : 'Protected',
+      createdAt: u.createdAt,
+      lastSeenAt: u.lastSeenAt
+    }));
+    res.json({
+      success: true,
+      data: safeUsers,
+      count: safeUsers.length
+    });
+  } catch (err: any) {
+    res.status(500).json({
+      success: false,
+      error: { code: 'USERS_FETCH_FAILED', message: err.message || 'Failed to fetch users' }
+    });
+  }
+});
+
 // GET /api/users/session/:userId
 router.get('/session/:userId', async (req, res) => {
   try {
@@ -57,7 +82,6 @@ router.get('/session/:userId', async (req, res) => {
       });
     }
 
-    // Safe response without exposing mobile number in public session
     res.json({
       success: true,
       data: {

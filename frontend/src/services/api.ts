@@ -218,10 +218,10 @@ export const api = {
     });
   },
 
-  // User Onboarding (Section: First-Visit User Onboarding)
+  // User Onboarding & Profiles
   async onboardUser(data: { name: string; mobile: string }): Promise<{
     success: boolean;
-    data: { userId: string; name: string };
+    data: { userId: string; name: string; mobile: string; createdAt?: string };
     error?: { code: string; message: string };
   }> {
     return fetchJson(`${API_BASE}/users/onboard`, {
@@ -232,10 +232,19 @@ export const api = {
 
   async getUserSession(userId: string): Promise<{
     success: boolean;
-    data: { userId: string; name: string; createdAt: string };
+    data: { userId: string; name: string; mobile?: string; createdAt?: string; lastSeenAt?: string };
     error?: { code: string; message: string };
   }> {
     return fetchJson(`${API_BASE}/users/session/${userId}`);
+  },
+
+  async getAllUsers(): Promise<{
+    success: boolean;
+    data: Array<{ _id: string; name: string; mobile: string; createdAt: string; lastSeenAt?: string }>;
+    count?: number;
+    error?: { code: string; message: string };
+  }> {
+    return fetchJson(`${API_BASE}/users`);
   },
 
   async resetData(): Promise<{ success: boolean; message: string }> {

@@ -13,6 +13,9 @@ interface MainLayoutProps {
   isDemoRunning?: boolean;
   demoMode?: boolean;
   userName?: string;
+  userMobile?: string;
+  userId?: string;
+  onLogout?: () => void;
   children: React.ReactNode;
 }
 
@@ -77,6 +80,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
   isDemoRunning,
   demoMode,
   userName,
+  userMobile,
+  userId,
+  onLogout,
   children
 }) => {
   const currentInfo = TAB_TITLES[activeTab] || { title: 'AgentHeal', subtitle: 'Autonomous Platform' };
@@ -102,6 +108,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({
           onSelectAgent={onSelectAgent}
           isHomeView={activeTab === 'home'}
           userName={userName}
+          userMobile={userMobile}
+          userId={userId}
+          onLogout={onLogout}
         />
 
         {/* Scrollable Page Canvas */}

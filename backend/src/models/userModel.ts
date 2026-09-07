@@ -143,4 +143,20 @@ export class UserModel {
     }
     return storage.getUserById(userId);
   }
+
+  /**
+   * Retrieve all users
+   */
+  public static async getAllUsers(): Promise<UserDocument[]> {
+    const collection = await this.getCollection();
+    if (collection) {
+      try {
+        const users = await collection.find({}).sort({ createdAt: -1 }).toArray();
+        return users as unknown as UserDocument[];
+      } catch (e) {
+        // fallback to storage
+      }
+    }
+    return storage.getAllUsers();
+  }
 }

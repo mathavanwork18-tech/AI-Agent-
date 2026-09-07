@@ -9,7 +9,7 @@ import { Deployments } from './pages/Deployments.js';
 import { Playground } from './pages/Playground.js';
 import { AOSessions } from './pages/AOSessions.js';
 import { Settings } from './pages/Settings.js';
-import { OnboardingModal } from './components/OnboardingModal.js';
+import { OnboardingModal, UserSessionData } from './components/OnboardingModal.js';
 import { api } from './services/api.js';
 import { Agent } from './types/index.js';
 
@@ -23,7 +23,7 @@ export const App: React.FC = () => {
   const [promptForCreation, setPromptForCreation] = useState<string>('');
 
   // User session state for first-visit onboarding & personalized greeting
-  const [currentUser, setCurrentUser] = useState<{ userId: string; name: string } | null>(() => {
+  const [currentUser, setCurrentUser] = useState<UserSessionData | null>(() => {
     try {
       const saved = localStorage.getItem('agentheal_user');
       if (saved) {
@@ -35,14 +35,10 @@ export const App: React.FC = () => {
     return null;
   });
 
-  const [showOnboarding, setShowOnboarding] = useState<boolean>(() => {
-    try {
-      const saved = localStorage.getItem('agentheal_user');
-      return !saved;
-    } catch {
-      return true;
-    }
-  });
+  const handleLogout = () => {
+    localStorage.removeItem('agentheal_user');
+    setCurrentUser(null);
+  };
 
   // Load agents and settings on initial mount
   const loadData = async () => {
@@ -136,40 +132,44 @@ export const App: React.FC = () => {
     );
   }
 
+  // Gatekeeper: If user hasn't provided name & phone number, render ONLY the onboarding portal
+  if (!currentUser) {
+    return (
+      <OnboardingModal
+        onComplete={(user) => {
+          setCurrentUser(user);
+        }}
+      />
+    );
+  }
+
   return (
-    <>
-      {showOnboarding && (
-        <OnboardingModal
-          onComplete={(user) => {
-            setCurrentUser(user);
-            setShowOnboarding(false);
-          }}
+    <MainLayout
+      activeTab={activeTab}
+      setActiveTab={setActiveTab}
+      agents={agents}
+      activeAgent={activeAgent}
+      onSelectAgent={setActiveAgent}
+      onRunDemoFlow={handleRunDemoFlow}
+      isDemoRunning={isDemoRunning}
+      demoMode={demoMode}
+      userName={currentUser.name}
+      userMobile={currentUser.mobile}
+      userId={currentUser.userId}
+      onLogout={handleLogout}
+    >
+      {activeTab === 'home' && (
+        <Dashboard
+          agents={agents}
+          activeAgent={activeAgent}
+          onSelectAgent={setActiveAgent}
+          setActiveTab={setActiveTab}
+          onRunDemoFlow={handleRunDemoFlow}
+          isDemoRunning={isDemoRunning}
+          onBuildPrompt={handleBuildPrompt}
+          userName={currentUser.name}
         />
       )}
-
-      <MainLayout
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        agents={agents}
-        activeAgent={activeAgent}
-        onSelectAgent={setActiveAgent}
-        onRunDemoFlow={handleRunDemoFlow}
-        isDemoRunning={isDemoRunning}
-        demoMode={demoMode}
-        userName={currentUser?.name}
-      >
-        {activeTab === 'home' && (
-          <Dashboard
-            agents={agents}
-            activeAgent={activeAgent}
-            onSelectAgent={setActiveAgent}
-            setActiveTab={setActiveTab}
-            onRunDemoFlow={handleRunDemoFlow}
-            isDemoRunning={isDemoRunning}
-            onBuildPrompt={handleBuildPrompt}
-            userName={currentUser?.name}
-          />
-        )}
 
       {activeTab === 'create' && (
         <CreateAgent
@@ -223,6 +223,5 @@ export const App: React.FC = () => {
         <Settings />
       )}
     </MainLayout>
-    </>
   );
 };

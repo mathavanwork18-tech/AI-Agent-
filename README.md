@@ -80,6 +80,37 @@ Visit **http://localhost:5173** to launch the AgentHeal workspace!
 
 ---
 
+## 🌐 Deploy to Netlify
+
+This repository is pre-configured with `netlify.toml` and Netlify Serverless Functions for full-stack deployment.
+
+### Option A: Via Netlify Git Integration (Recommended)
+1. Push your changes to GitHub:
+   ```bash
+   git add .
+   git commit -m "feat: configure Netlify fullstack deployment"
+   git push origin main
+   ```
+2. In [Netlify Dashboard](https://app.netlify.com/):
+   * Click **"Add new site"** &rarr; **"Import an existing project"** &rarr; select **`mathavanwork18-tech/AI-Agent-`**.
+   * Netlify will auto-detect the configuration from `netlify.toml`:
+     * **Build command**: `npm run install:all && npm run build`
+     * **Publish directory**: `frontend/dist`
+     * **Functions directory**: `netlify/functions`
+3. Add your Environment Variables in Netlify **Site configuration > Environment variables**:
+   * `GEMINI_API_KEY`: Your Gemini API key
+   * `MONGODB_URI`: (Optional) MongoDB Atlas connection string
+   * `DIFY_API_KEY` & `DIFY_API_URL`: (Optional) Dify integration keys
+4. Click **Deploy Site**!
+
+### Option B: Via Netlify CLI
+```bash
+npx netlify-cli deploy --prod
+```
+
+
+---
+
 ## 🧪 Test Suites
 
 ```bash
