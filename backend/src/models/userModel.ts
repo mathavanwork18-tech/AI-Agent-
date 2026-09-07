@@ -27,11 +27,16 @@ export class UserModel {
     }
     this.lastConnectAttempt = now;
 
-    const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/agentheal';
+    let mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/agentheal';
 
     if (mongoUri.includes('<db_username>') || mongoUri.includes('%3Cdb_username%3E')) {
       console.log('⚠️  MONGODB_URI contains placeholder "<db_username>". Please replace with your Atlas database username in backend/.env');
       return null;
+    }
+
+    // Auto-clean common URL-encoded colon prefix in password if copied from Atlas UI (:%3Apassword -> :password)
+    if (mongoUri.includes(':%3A')) {
+      mongoUri = mongoUri.replace(':%3A', ':');
     }
 
     try {
